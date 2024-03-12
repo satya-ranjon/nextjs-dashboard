@@ -9,7 +9,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-// import { unstable_noStore as noStore } from 'next/cache';
+import { unstable_noStore as noStore } from 'next/cache';
 
 // Fetch the last 5 invoices, sorted by date
 
@@ -151,7 +151,7 @@ export async function fetchInvoicesPages(query: string) {
 
 export async function fetchInvoiceById(id: string) {
   try {
-    // noStore();
+    noStore();
     const data = await sql<InvoiceForm>`
       SELECT
         invoices.id,
@@ -164,7 +164,6 @@ export async function fetchInvoiceById(id: string) {
 
     const invoice = data.rows.map((invoice) => ({
       ...invoice,
-      // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
 
